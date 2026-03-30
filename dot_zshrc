@@ -1,0 +1,65 @@
+# ═══════════════════════════════════════
+#   Globals
+# ═══════════════════════════════════════
+export DEV_DIR="$HOME/Development/DJX"
+export ZSH="$HOME/.oh-my-zsh"
+
+# ═══════════════════════════════════════
+#   Editor
+# ═══════════════════════════════════════
+export EDITOR=nano
+
+# ═══════════════════════════════════════
+#   Plugins
+# ═══════════════════════════════════════
+plugins=(
+  git
+  brew
+)
+
+# ═══════════════════════════════════════
+#   Aliases
+# ═══════════════════════════════════════
+# General
+alias bc='bin/console'
+alias ofd='open .'
+alias doclist='docker ps --format "table {{.Names}}\t{{.Ports}}\t{{.Image}}"'
+
+# Custom Tools
+alias qc='$DEV_DIR/scripts/git-quick-commit.sh'
+
+# Symfony
+alias sc='symfony console'
+alias sss='symfony server:start'
+alias ssx='symfony server:stop'
+
+# PHP
+alias csfixer='vendor/bin/php-cs-fixer fix --verbose'
+alias phpstan='vendor/bin/phpstan analyse'
+alias phpunit='php bin/phpunit'
+
+# ═══════════════════════════════════════
+#   Theme & Style
+# ═══════════════════════════════════════
+ZSH_THEME="powerlevel10k/powerlevel10k"
+
+# Instant prompt (keep near top for performance)
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+fi
+
+# Load Powerlevel10k config if it exists
+[[ -f "$DEV_DIR/configs/.p10k.zsh" ]] && source "$DEV_DIR/configs/.p10k.zsh"
+
+# ═══════════════════════════════════════
+#   Load Oh My Zsh
+# ═══════════════════════════════════════
+source "$ZSH/oh-my-zsh.sh"
+
+# ═══════════════════════════════════════
+#   Post-load Plugins / Enhancements
+# ═══════════════════════════════════════
+# Syntax highlighting (should load AFTER Oh My Zsh)
+if [[ -f /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ]]; then
+  source /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+fi
