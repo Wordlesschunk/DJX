@@ -14,4 +14,4 @@ else
 fi
 
 git add .
-git commit -m "$branch $message"
+git commit -m "$branch $message" --no-verify
