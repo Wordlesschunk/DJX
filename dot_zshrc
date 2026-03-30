@@ -38,6 +38,12 @@ alias csfixer='vendor/bin/php-cs-fixer fix --verbose'
 alias phpstan='vendor/bin/phpstan analyse'
 alias phpunit='php bin/phpunit'
 
+# Wren Spec
+alias frnc="bin/console attach frontend_httpd"
+alias frnr="bin/console restart group:frontend"
+alias redisc="bin/console attach redis"
+alias redisclear="bin/console run -f service:redis"
+
 # ═══════════════════════════════════════
 #   Theme & Style
 # ═══════════════════════════════════════
