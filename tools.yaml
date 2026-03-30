@@ -1,0 +1,20 @@
+# List of tools/scripts to sync
+# Each entry should have:
+#   - name: folder name in ./tools
+#   - repo: git clone URL (HTTPS or SSH)
+#   - branch: (optional) specific branch to checkout
+#   - alias: (optional) alias name and command to add to zshrc
+#       - name: alias name (e.g., "mytool")
+#       - command: command to run (e.g., "./run.sh") - path is relative to tool folder
+
+tools:
+  # Example entries - replace with your actual repos:
+   - name: jenno
+     repo: git@github.com:Wordlesschunk/jenno.git
+     branch: main
+     alias:
+       name: jenno
+       command: jenno.sh
+  #
+  # - name: dotfiles
+  #   repo: https://github.com/yourusername/dotfiles.git
