@@ -20,6 +20,9 @@ plugins=(
 # ═══════════════════════════════════════
 #   Aliases
 # ═══════════════════════════════════════
+# Self
+alias djxapply='$DEV_DIR/apply.sh'
+
 # General
 alias bc='bin/console'
 alias ofd='open .'

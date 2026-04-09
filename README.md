@@ -5,8 +5,8 @@ Personal dev environment configuration managed with [chezmoi](https://www.chezmo
 ## Quick Start
 
 ```bash
-chmod +x setup.sh
-./setup.sh
+chmod +x install.sh
+./install.sh
 ```
 
 This installs:
