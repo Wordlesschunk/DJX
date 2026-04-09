@@ -10,22 +10,54 @@ ZSHRC_FILE="$HOME/.zshrc"
 ALIAS_START_MARKER="# === Sync-Tools Managed Aliases (DO NOT EDIT) ==="
 ALIAS_END_MARKER="# === End Sync-Tools Managed Aliases ==="
 
-# Colors for output
-RED='\033[0;31m'
+# Colors
 GREEN='\033[0;32m'
-YELLOW='\033[1;33m'
+BLUE='\033[0;34m'
+YELLOW='\033[0;33m'
+CYAN='\033[0;36m'
+RED='\033[0;31m'
 NC='\033[0m' # No Color
 
-log_info() { echo -e "${GREEN}[INFO]${NC} $1"; }
-log_warn() { echo -e "${YELLOW}[WARN]${NC} $1"; }
-log_error() { echo -e "${RED}[ERROR]${NC} $1"; }
+# Icons
+CHECK="✓"
+ARROW="→"
+WARN="⚠"
+ERROR="✗"
+
+print_header() {
+    echo ""
+    echo -e "${BLUE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
+    echo -e "${CYAN}  $1${NC}"
+    echo -e "${BLUE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
+}
+
+print_step() {
+    echo -e "${YELLOW}${ARROW}${NC} $1"
+}
+
+print_success() {
+    echo -e "${GREEN}${CHECK}${NC} $1"
+}
+
+print_warn() {
+    echo -e "${YELLOW}${WARN}${NC} $1"
+}
+
+print_error() {
+    echo -e "${RED}${ERROR}${NC} $1"
+}
+
+print_header "DJX Tool Sync"
 
 # Check for yq (YAML parser)
+echo ""
+print_step "Checking dependencies..."
 if ! command -v yq &> /dev/null; then
-    log_error "yq is required but not installed."
-    echo "Install with: brew install yq"
+    print_error "yq is required but not installed"
+    echo -e "  Install with: ${CYAN}brew install yq${NC}"
     exit 1
 fi
+print_success "yq found"
 
 # Create tools directory if it doesn't exist
 mkdir -p "$TOOLS_DIR"
@@ -34,12 +66,12 @@ mkdir -p "$TOOLS_DIR"
 tool_count=$(yq '.tools | length' "$CONFIG_FILE")
 
 if [ "$tool_count" == "0" ] || [ "$tool_count" == "null" ]; then
-    log_warn "No tools configured in tools.yaml"
-    echo "Add your repos to tools.yaml to get started."
+    print_warn "No tools configured in tools.yaml"
+    echo -e "  Add your repos to ${CYAN}tools.yaml${NC} to get started"
     exit 0
 fi
 
-log_info "Syncing $tool_count tool(s)..."
+print_header "Syncing $tool_count tool(s)"
 
 for i in $(seq 0 $((tool_count - 1))); do
     name=$(yq -r ".tools[$i].name" "$CONFIG_FILE")
@@ -49,11 +81,11 @@ for i in $(seq 0 $((tool_count - 1))); do
     tool_path="$TOOLS_DIR/$name"
     
     echo ""
-    log_info "Processing: $name"
+    echo -e "  ${CYAN}${name}${NC}"
     
     if [ -d "$tool_path" ]; then
         # Tool exists - pull latest
-        log_info "  Updating existing repo..."
+        print_step "Updating existing repo..."
         cd "$tool_path"
         git fetch --all --prune
         
@@ -61,33 +93,30 @@ for i in $(seq 0 $((tool_count - 1))); do
             git checkout "$branch" 2>/dev/null || git checkout -b "$branch" "origin/$branch"
         fi
         
-        git pull --ff-only || log_warn "  Could not fast-forward, may have local changes"
+        git pull --ff-only || print_warn "Could not fast-forward, may have local changes"
         cd "$SCRIPT_DIR"
+        print_success "Updated"
     else
         # Tool doesn't exist - clone it
-        log_info "  Cloning fresh..."
+        print_step "Cloning fresh..."
         if [ -n "$branch" ] && [ "$branch" != "null" ]; then
             git clone --branch "$branch" "$repo" "$tool_path"
         else
             git clone "$repo" "$tool_path"
         fi
+        print_success "Cloned"
     fi
     
     # Run post-sync hook if defined
     post_sync=$(yq -r ".tools[$i].post_sync // \"\"" "$CONFIG_FILE")
     if [ -n "$post_sync" ] && [ "$post_sync" != "null" ]; then
-        log_info "  Running post-sync: $post_sync"
+        print_step "Running post-sync hook..."
         (cd "$tool_path" && eval "$post_sync")
+        print_success "Post-sync complete"
     fi
-
-    log_info "  Done: $name"
 done
 
-echo ""
-log_info "Sync complete!"
-
-# === Alias Management ===
-log_info "Updating aliases in dot_zshrc..."
+print_header "Updating Aliases"
 
 # Build aliases into a temp file
 TEMP_ALIASES=$(mktemp)
@@ -102,7 +131,7 @@ for i in $(seq 0 $((tool_count - 1))); do
         tool_path="$TOOLS_DIR/$name"
         full_command="$tool_path/$alias_command"
         echo "alias $alias_name='$full_command'" >> "$TEMP_ALIASES"
-        log_info "  Added alias: $alias_name -> $full_command"
+        print_success "${alias_name} → ${full_command}"
     fi
 done
 
@@ -114,18 +143,24 @@ if grep -q "$ALIAS_START_MARKER" "$ZSHRC_FILE"; then
 fi
 
 # Insert after "# === Custom Aliases ===" line
+echo ""
 if grep -q "# === Custom Aliases ===" "$ZSHRC_FILE"; then
-    # Use sed to insert after the marker line
     sed -i '' "/# === Custom Aliases ===/r $TEMP_ALIASES" "$ZSHRC_FILE"
-    log_info "Aliases added to dot_zshrc"
+    print_success "Aliases added to dot_zshrc"
 else
-    # Append to end if marker not found
     echo "" >> "$ZSHRC_FILE"
     cat "$TEMP_ALIASES" >> "$ZSHRC_FILE"
-    log_info "Aliases appended to dot_zshrc"
+    print_success "Aliases appended to dot_zshrc"
 fi
 
 rm "$TEMP_ALIASES"
 
 echo ""
-log_info "All done!"
+print_step "Making scripts executable..."
+find "$TOOLS_DIR" -name "*.sh" -type f -exec chmod +x {} \;
+print_success "All .sh files in external/ are executable"
+
+print_header "${CHECK} Sync Complete!"
+echo ""
+echo -e "  ${GREEN}Your tools are ready to use${NC}"
+echo ""
