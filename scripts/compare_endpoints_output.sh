@@ -7,15 +7,14 @@
 # Grab the cURL from Postman's code snippet view for each request.
 
 # --- Auth tokens (one per environment, leave empty if not needed) ---
-ENV1_TOKEN=""
-ENV2_TOKEN=""
+ENV1_TOKEN="COOL_KEY"
+ENV2_TOKEN="COOL_KEY"
 
 # --- Define URL pairs to compare ---
 # Each line is: "FULL_URL_ENV1 FULL_URL_ENV2"
 COMPARISONS=(
-  "https://api.project2.wren.com/api/v2/finance-options?partial=true&order=desc https://api.project3.wren.com/api/v2/finance-options?partial=true&order=desc"
   # Add more pairs:
-  # "https://api.project2.wren.com/api/v2/users https://api.project3.wren.com/api/v2/users"
+  # "https://api.company.com/api/v2/users https://api.company.com/api/v2/users"
 )
 
 # --- Script ---

@@ -1,0 +1,91 @@
+{
+  "mcpServers": {
+    "fetch": {
+      "command": "uvx",
+      "args": [
+        "mcp-server-fetch"
+      ],
+      "env": {},
+      "disabled": false,
+      "autoApprove": [
+        "fetch"
+      ]
+    },
+    "mcp-atlassian": {
+      "command": "uvx",
+      "args": [
+        "mcp-atlassian"
+      ],
+      "disabled": false,
+      "env": {
+        "JIRA_URL": "https://COMPANY.net",
+        "JIRA_USERNAME": "dylan.jennings@COMPANY.com",
+        "JIRA_API_TOKEN": "COOL_KEY",
+        "CONFLUENCE_URL": "https://COMPANY.atlassian.net/wiki",
+        "CONFLUENCE_USERNAME": "dylan.jennings@COMPANY.com",
+        "CONFLUENCE_API_TOKEN": "COOL_KEY"
+      },
+      "autoApprove": [
+        "confluence_get_page",
+        "jira_get_issue",
+        "jira_search",
+        "jira_search",
+        "jira_search",
+        "jira_search"
+      ]
+    },
+    "jira": {
+      "command": "uvx",
+      "args": [
+        "--native-tls",
+        "mcp-atlassian"
+      ],
+      "env": {
+        "JIRA_URL": "https://COMPANY.atlassian.net",
+        "JIRA_USERNAME": "dylan.jennings@COMPANY.com",
+        "JIRA_API_TOKEN": "COOL_KEY"
+      },
+      "disabled": true,
+      "autoApprove": [
+        "jira_get_issue",
+        "jira_search_fields",
+        "jira_search"
+      ]
+    },
+    "postman": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@postman/postman-mcp-server"
+      ],
+      "env": {
+        "POSTMAN_API_KEY": "COOL_KEY",
+        "NODE_TLS_REJECT_UNAUTHORIZED": "0"
+      },
+      "autoApprove": [
+        "getCollection"
+      ]
+    },
+    "bitbucket": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@aashari/mcp-server-atlassian-bitbucket"
+      ],
+      "env": {
+        "ATLASSIAN_USER_EMAIL": "dylan.jennings@COMPANY.com",
+        "ATLASSIAN_API_TOKEN": "COOL_KEY",
+        "BITBUCKET_DEFAULT_WORKSPACE": "COMPANY"
+      },
+      "disabled": false,
+      "autoApprove": [
+        "bitbucket_get_pull_request",
+        "bitbucket_list_pull_requests",
+        "bitbucket_get_repository",
+        "bitbucket_list_repositories",
+        "bitbucket_get_file",
+        "bb_get"
+      ]
+    }
+  }
+}
