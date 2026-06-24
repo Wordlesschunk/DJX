@@ -32,6 +32,7 @@ alias doclist='docker ps --format "table {{.Names}}\t{{.Ports}}\t{{.Image}}"'
 alias qc='$DEV_DIR/scripts/git-quick-commit.sh'
 alias qcp='$DEV_DIR/scripts/git-quick-commit-and-push.sh'
 alias startme='$DEV_DIR/scripts/quick-start-wren-app.sh'
+alias connectme='$DEV_DIR/scripts/connect-wren-app.sh'
 
 # Symfony
 alias sc='symfony console'
