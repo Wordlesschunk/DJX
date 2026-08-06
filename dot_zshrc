@@ -31,6 +31,7 @@ alias doclist='docker ps --format "table {{.Names}}\t{{.Ports}}\t{{.Image}}"'
 # Custom Tools
 alias qc='$DEV_DIR/scripts/git-quick-commit.sh'
 alias qcp='$DEV_DIR/scripts/git-quick-commit-and-push.sh'
+alias qop='$DEV_DIR/scripts/git-quick-commit-and-push-to-origin.sh'
 alias startme='$DEV_DIR/scripts/quick-start-wren-app.sh'
 alias connectme='$DEV_DIR/scripts/connect-wren-app.sh'
 alias authme='$DEV_DIR/scripts/auth-aws.sh'
