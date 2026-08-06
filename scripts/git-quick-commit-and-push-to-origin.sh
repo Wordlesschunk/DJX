@@ -15,3 +15,4 @@ fi
 
 git add .
 git commit -m "$branch $message" --no-verify
+git push --no-verify origin "$branch"
