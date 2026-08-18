@@ -1,22 +1,22 @@
 {
   "mcpServers": {
     "fetch": {
+      "disabled": false,
       "command": "uvx",
       "args": [
         "mcp-server-fetch"
       ],
       "env": {},
-      "disabled": false,
       "autoApprove": [
         "fetch"
       ]
     },
     "mcp-atlassian": {
+      "disabled": false,
       "command": "uvx",
       "args": [
         "mcp-atlassian"
       ],
-      "disabled": false,
       "env": {
         "JIRA_URL": "https://COMPANY.net",
         "JIRA_USERNAME": "dylan.jennings@COMPANY.com",
@@ -31,10 +31,23 @@
         "jira_search",
         "jira_search",
         "jira_search",
-        "jira_search"
+        "jira_search",
+        "jira_search_fields",
+        "jira_search_fields",
+        "jira_get_field_options",
+        "jira_get_field_options",
+        "jira_get_field_options"
+      ]
+    },
+    "chrome-devtools": {
+      "disabled": true,
+      "command": "npx",
+      "args": [
+        "chrome-devtools-mcp@latest"
       ]
     },
     "jira": {
+      "disabled": false,
       "command": "uvx",
       "args": [
         "--native-tls",
@@ -45,14 +58,35 @@
         "JIRA_USERNAME": "dylan.jennings@COMPANY.com",
         "JIRA_API_TOKEN": "COOL_KEY"
       },
-      "disabled": true,
       "autoApprove": [
         "jira_get_issue",
         "jira_search_fields",
         "jira_search"
       ]
     },
+    "mysql": {
+      "disabled": true,
+      "command": "uvx",
+      "args": [
+        "--native-tls",
+        "--from",
+        "mysql-mcp-server",
+        "mysql_mcp_server"
+      ],
+      "env": {
+        "MYSQL_HOST": "",
+        "MYSQL_PORT": "3306",
+        "MYSQL_USER": "",
+        "MYSQL_PASSWORD": "",
+        "MYSQL_DATABASE": ""
+      },
+      "autoApprove": [
+        "get_schema_info",
+        "execute_sql"
+      ]
+    },
     "postman": {
+      "disabled": true,
       "command": "npx",
       "args": [
         "-y",
@@ -67,6 +101,7 @@
       ]
     },
     "bitbucket": {
+      "disabled": false,
       "command": "npx",
       "args": [
         "-y",
@@ -77,7 +112,6 @@
         "ATLASSIAN_API_TOKEN": "COOL_KEY",
         "BITBUCKET_DEFAULT_WORKSPACE": "COMPANY"
       },
-      "disabled": false,
       "autoApprove": [
         "bitbucket_get_pull_request",
         "bitbucket_list_pull_requests",
@@ -86,6 +120,13 @@
         "bitbucket_get_file",
         "bb_get"
       ]
+    },
+    "github": {
+      "disabled": false,
+      "url": "https://api.githubcopilot.com/mcp/",
+      "headers": {
+        "Authorization": "Bearer github_pat...."
+      }
     }
   }
 }
