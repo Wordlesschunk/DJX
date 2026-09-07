@@ -19,4 +19,9 @@ git add .
 git commit -m "$branch $message" --no-verify
 git push --no-verify
 
-echo "https://github.com/pulls/inbox"
+echo
+echo "────────────────────────────────────────────"
+echo -e "  \033[1;36mGitHub Pull Requests\033[0m"
+echo -e "  \033[4;34mhttps://github.com/pulls/inbox\033[0m"
+echo "────────────────────────────────────────────"
+echo
