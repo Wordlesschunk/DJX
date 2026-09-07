@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# alise: qcp
+
 branch=$(git branch --show-current)
 
 if [ -z "$branch" ]; then
@@ -16,3 +18,5 @@ fi
 git add .
 git commit -m "$branch $message" --no-verify
 git push --no-verify
+
+echo "https://github.com/pulls/inbox"
