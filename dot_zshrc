@@ -45,12 +45,7 @@ alias phpunit='php bin/phpunit'
 # ═══════════════════════════════════════
 #   Theme & Style
 # ═══════════════════════════════════════
-ZSH_THEME="powerlevel10k/powerlevel10k"
-
-# Instant prompt (keep near top for performance)
-if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
-  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
-fi
+source /opt/homebrew/share/powerlevel10k/powerlevel10k.zsh-theme
 
 # Load Powerlevel10k config if it exists
 [[ -f "$DEV_DIR/configs/.p10k.zsh" ]] && source "$DEV_DIR/configs/.p10k.zsh"

@@ -64,6 +64,11 @@ print_step "Installing zsh-syntax-highlighting..."
 brew install zsh-syntax-highlighting
 print_success "zsh-syntax-highlighting installed"
 
+echo ""
+print_step "Installing powerlevel10k"
+brew install powerlevel10k
+print_success "Powerlevel10k installed"
+
 print_header "Installation Complete!"
 echo ""
 echo -e "  Run ${CYAN}./apply.sh${NC} to apply your dotfiles"
